@@ -1,0 +1,153 @@
+/* Login.css and Register.css can share these styles */
+
+/* Import Bootstrap Icons if not already in your project */
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e66465, #9198e5);
+  padding: 20px;
+}
+
+.login-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+.login-card::before {
+  content: '';
+  position: absolute;
+  width: 90%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  bottom: -15px;
+  border-radius: 20px;
+  z-index: -1;
+  left: 5%;
+}
+
+.user-icon {
+  background-color: #0a2e52;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  margin-top: -60px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.user-icon i {
+  font-size: 40px;
+  color: white;
+}
+
+.input-group {
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
+  background-color: #0a2e52;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.input-icon {
+  background-color: #0a2e52;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  color: white;
+}
+
+.custom-input {
+  border: none;
+  padding: 12px 15px;
+  background-color: #0a2e52;
+  color: white;
+  flex: 1;
+}
+
+.custom-input::placeholder {
+  color: #b0b0b0;
+}
+
+.custom-input:focus {
+  box-shadow: none;
+  background-color: #0a2e52;
+  color: white;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 15px 0;
+  font-size: 14px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+}
+
+.forgot-password {
+  color: #0a2e52;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.login-button {
+  background-color: #0a2e52;
+  border: none;
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #083f75;
+}
+
+.register-link {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.register-link a {
+  color: #0a2e52;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+/* Add Bootstrap form check styling override */
+.form-check-input:checked {
+  background-color: #0a2e52;
+  border-color: #0a2e52;
+}
