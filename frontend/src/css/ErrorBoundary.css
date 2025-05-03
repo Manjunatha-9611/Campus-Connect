@@ -1,0 +1,78 @@
+.error-boundary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #f8f9fa;
+}
+
+.error-content {
+  max-width: 600px;
+  padding: 2rem;
+  text-align: center;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.error-icon {
+  font-size: 4rem;
+  color: #dc3545;
+  margin-bottom: 1rem;
+}
+
+.error-content h1 {
+  margin-bottom: 1rem;
+  color: #343a40;
+}
+
+.error-content p {
+  color: #6c757d;
+  margin-bottom: 2rem;
+}
+
+.error-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.refresh-btn,
+.home-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.refresh-btn {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.home-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.error-details {
+  text-align: left;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 2rem;
+}
+
+.error-details pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  font-size: 0.875rem;
+  color: #dc3545;
+} 

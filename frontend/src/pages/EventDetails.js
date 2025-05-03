@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/EventDetails.css';
-import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaUniversity, FaArrowLeft } from 'react-icons/fa';
+import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaUniversity, FaArrowLeft, FaUser } from 'react-icons/fa';
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -34,6 +34,25 @@ const EventDetails = () => {
         setError("Failed to load event details");
         setLoading(false);
         console.error("Error fetching event details:", err);
+        // Use dummy data for testing
+        setEvent({
+          _id: id,
+          title: 'Annual Career Fair 2024',
+          date: '2024-03-15',
+          time: '10:00 AM - 4:00 PM',
+          location: 'Main Campus Auditorium',
+          description: 'Join us for our annual career fair featuring top companies from various industries. Network with recruiters and explore exciting job opportunities.',
+          category: 'inperson',
+          imageUrl: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+          organizer: 'Career Services Department',
+          capacity: 200,
+          registered: 150,
+          requirements: [
+            'Valid student ID',
+            'Resume (optional)',
+            'Business casual attire'
+          ]
+        });
       }
     };
 
@@ -74,7 +93,12 @@ const EventDetails = () => {
   };
 
   if (loading) {
-    return <div className="loading-container">Loading event details...</div>;
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Loading event details...</p>
+      </div>
+    );
   }
 
   if (error || !event) {
@@ -118,7 +142,7 @@ const EventDetails = () => {
             </div>
             {event.organizer && (
               <div className="meta-item">
-                <FaUniversity />
+                <FaUser />
                 <span>{event.organizer}</span>
               </div>
             )}
@@ -169,6 +193,15 @@ const EventDetails = () => {
               </div>
             </section>
           )}
+
+          <section className="event-requirements">
+            <h2>Requirements</h2>
+            <ul>
+              {event.requirements.map((req, index) => (
+                <li key={index}>{req}</li>
+              ))}
+            </ul>
+          </section>
         </div>
 
         <div className="event-sidebar">

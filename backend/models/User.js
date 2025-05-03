@@ -20,6 +20,12 @@ const UserSchema = new mongoose.Schema({
     enum: ['student', 'admin'],
     default: 'student'
   },
+  phone: { type: String },
+  department: { type: String },
+  rollNumber: { type: String },
+  year: { type: String },
+  semester: { type: String },
+  profilePic: { type: String, default: "" },
   createdAt: {
     type: Date,
     default: Date.now

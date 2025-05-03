@@ -1,0 +1,171 @@
+.hub-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #333;
+  }
+  
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  }
+  
+  .hub-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    background: linear-gradient(135deg, rgba(28, 66, 104, 0.1), rgba(44, 82, 130, 0.2));
+  }
+  
+  .hub-hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    color: #1a365d;
+  }
+  
+  .hub-hero p {
+    font-size: 1.2rem;
+    color: #4a5568;
+  }
+  
+  .resources-section,
+  .webinars-section,
+  .community-section {
+    margin-bottom: 3rem;
+  }
+  
+  section h2 {
+    font-size: 1.8rem;
+    color: #2c5282;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+  
+  section h2:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, #2c5282, transparent);
+  }
+  
+  .resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  .glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  }
+  
+  .resource-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .resource-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #2c5282;
+  }
+  
+  .access-btn, .register-webinar-btn, .join-btn {
+    background: linear-gradient(135deg, #2c5282, #1a365d);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+  }
+  
+  .access-btn:hover, .register-webinar-btn:hover, .join-btn:hover {
+    background: linear-gradient(135deg, #1a365d, #0a2040);
+    transform: translateY(-2px);
+  }
+  
+  .webinars-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .webinar-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .webinar-item:last-child {
+    border-bottom: none;
+  }
+  
+  .webinar-details h3 {
+    margin: 0 0 0.3rem 0;
+    color: #2c5282;
+  }
+  
+  .webinar-date {
+    color: #718096;
+    margin: 0 0 0.3rem 0;
+  }
+  
+  .webinar-speaker {
+    font-style: italic;
+    margin: 0;
+  }
+  
+  .forum-preview {
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .forum-preview p {
+    margin-bottom: 1.5rem;
+  }
+  
+  .join-btn {
+    padding: 0.75rem 2rem;
+  }
+  
+  @media (max-width: 768px) {
+    .resources-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .webinar-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .register-webinar-btn {
+      margin-top: 1rem;
+      align-self: stretch;
+    }
+    
+    .hub-container {
+      padding: 1rem;
+    }
+  }

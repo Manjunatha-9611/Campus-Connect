@@ -25,6 +25,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/campus-conn
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/events', require('./routes/event.routes'));
 app.use('/api/notices', require('./routes/notice.routes'));
+app.use('/api/admin', require('./routes/admin.routes'));
 
 // Default route
 app.get('/', (req, res) => {

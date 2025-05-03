@@ -1,180 +1,215 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Form, Button, Card, Alert } from 'react-bootstrap';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import axios from 'axios';
 import { API_URL } from '../../config';
-import { AuthContext } from '../../contexts/AuthContext';
+import './CreateEvent.css';
 
 const EditEvent = () => {
-  const { id } = useParams();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const [location, setLocation] = useState('');
-  const [organizer, setOrganizer] = useState('');
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    date: '',
+    time: '',
+    location: '',
+    capacity: '',
+    requirements: '',
+    status: 'upcoming'
+  });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  const [updating, setUpdating] = useState(false);
-  
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
-    const fetchEvent = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/events/${id}`);
-        const event = res.data;
-        
-        setTitle(event.title);
-        setDescription(event.description);
-        
-        // Format date for form input
-        const eventDate = new Date(event.date);
-        setDate(eventDate.toISOString().split('T')[0]);
-        setTime(eventDate.toTimeString().split(' ')[0].substring(0, 5));
-        
-        setLocation(event.location);
-        setOrganizer(event.organizer);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching event:', error);
-        setError('Failed to fetch event details');
-        setLoading(false);
-      }
-    };
-    
     fetchEvent();
   }, [id]);
 
+  const fetchEvent = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/events/${id}`);
+      const event = response.data;
+      setFormData({
+        title: event.title,
+        description: event.description,
+        date: event.date.split('T')[0],
+        time: event.time,
+        location: event.location,
+        capacity: event.capacity,
+        requirements: event.requirements || '',
+        status: event.status
+      });
+    } catch (err) {
+      setError('Failed to fetch event details');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setLoading(true);
+    setError('');
+
     try {
-        setError('');
-      setUpdating(true);
-      
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`
-        }
-      };
-      
-      // Combine date and time
-      const dateTime = new Date(`${date}T${time}`);
-      
       await axios.put(
         `${API_URL}/api/events/${id}`,
+        formData,
         {
-          title,
-          description,
-          date: dateTime,
-          location,
-          organizer
-        },
-        config
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        }
       );
-      
       navigate('/admin/events');
-    } catch (error) {
-      setError(error.response?.data?.message || 'Failed to update event');
-      setUpdating(false);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to update event');
+    } finally {
+      setLoading(false);
     }
   };
 
   if (loading) {
-    return <div className="text-center my-5">Loading...</div>;
+    return (
+      <div className="create-event">
+        <div className="loading">Loading event details...</div>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <h1 className="mb-4">Edit Event</h1>
-      
-      <Card>
-        <Card.Body>
-          {error && <Alert variant="danger">{error}</Alert>}
-          
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Title</Form.Label>
-              <Form.Control 
-                type="text" 
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+    <div className="create-event">
+      <div className="form-container">
+        <h1>Edit Event</h1>
+        {error && <div className="error-message">{error}</div>}
+        
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="title">Event Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="description">Description</label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+              rows="4"
+            />
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="date">Date</label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
                 required
               />
-            </Form.Group>
-            
-            <Form.Group className="mb-3">
-              <Form.Label>Description</Form.Label>
-              <Form.Control 
-                as="textarea" 
-                rows={4}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-              />
-            </Form.Group>
-            
-            <Form.Group className="mb-3">
-              <Form.Label>Date</Form.Label>
-              <Form.Control 
-                type="date" 
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                required
-              />
-            </Form.Group>
-            
-            <Form.Group className="mb-3">
-              <Form.Label>Time</Form.Label>
-              <Form.Control 
-                type="time" 
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-                required
-              />
-            </Form.Group>
-            
-            <Form.Group className="mb-3">
-              <Form.Label>Location</Form.Label>
-              <Form.Control 
-                type="text" 
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                required
-              />
-            </Form.Group>
-            
-            <Form.Group className="mb-3">
-              <Form.Label>Organizer</Form.Label>
-              <Form.Control 
-                type="text" 
-                value={organizer}
-                onChange={(e) => setOrganizer(e.target.value)}
-                required
-              />
-            </Form.Group>
-            
-            <div className="d-flex justify-content-between">
-              <Button 
-                variant="secondary" 
-                onClick={() => navigate('/admin/events')}
-              >
-                Cancel
-              </Button>
-              <Button 
-                variant="primary" 
-                type="submit" 
-                disabled={updating}
-              >
-                {updating ? 'Updating...' : 'Update Event'}
-              </Button>
             </div>
-          </Form>
-        </Card.Body>
-      </Card>
+
+            <div className="form-group">
+              <label htmlFor="time">Time</label>
+              <input
+                type="time"
+                id="time"
+                name="time"
+                value={formData.time}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="location">Location</label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="capacity">Capacity</label>
+            <input
+              type="number"
+              id="capacity"
+              name="capacity"
+              value={formData.capacity}
+              onChange={handleChange}
+              required
+              min="1"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="requirements">Requirements</label>
+            <textarea
+              id="requirements"
+              name="requirements"
+              value={formData.requirements}
+              onChange={handleChange}
+              rows="3"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="status">Status</label>
+            <select
+              id="status"
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+            >
+              <option value="upcoming">Upcoming</option>
+              <option value="ongoing">Ongoing</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+
+          <div className="form-actions">
+            <button
+              type="button"
+              className="cancel-btn"
+              onClick={() => navigate('/admin/events')}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="submit-btn"
+              disabled={loading}
+            >
+              {loading ? 'Updating...' : 'Update Event'}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

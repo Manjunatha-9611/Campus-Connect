@@ -1,190 +1,157 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import axios from 'axios';
 import { API_URL } from '../../config';
-import { AuthContext } from '../../contexts/AuthContext';
-import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap';
+import './CreateNotice.css';
 
 const EditNotice = () => {
-  const { id } = useParams();
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [category, setCategory] = useState('');
+  const [formData, setFormData] = useState({
+    title: '',
+    content: '',
+    category: 'general',
+    priority: 'normal'
+  });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  const [updating, setUpdating] = useState(false);
-  
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
-    const fetchNotice = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/notices/${id}`);
-        const notice = res.data;
-        
-        setTitle(notice.title);
-        setContent(notice.content);
-        setCategory(notice.category);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching notice:', error);
-        setError('Failed to fetch notice details');
-        setLoading(false);
-      }
-    };
-    
     fetchNotice();
   }, [id]);
 
+  const fetchNotice = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/notices/${id}`);
+      const notice = response.data;
+      setFormData({
+        title: notice.title,
+        content: notice.content,
+        category: notice.category,
+        priority: notice.priority
+      });
+    } catch (err) {
+      setError('Failed to fetch notice details');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setLoading(true);
+    setError('');
+
     try {
-      setError('');
-      setUpdating(true);
-      
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`
-        }
-      };
-      
-      await axios.put(
-        `${API_URL}/api/notices/${id}`,
-        {
-          title,
-          content,
-          category
-        },
-        config
-      );
-      
+      await axios.put(`${API_URL}/api/notices/${id}`, formData);
       navigate('/admin/notices');
-    } catch (error) {
-      setError(error.response?.data?.message || 'Failed to update notice');
-      setUpdating(false);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to update notice');
+    } finally {
+      setLoading(false);
     }
   };
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: '50vh' }}>
-        <Spinner animation="border" variant="danger" />
+      <div className="create-notice">
+        <div className="loading">Loading notice details...</div>
       </div>
     );
   }
 
   return (
-    <Container className="py-4">
-      <div className="mb-4">
-        <h2 className="fw-bold" style={{ color: '#212A3E' }}>Edit Notice</h2>
-        <div className="mt-2" style={{ width: '50px', height: '4px', backgroundColor: '#B80000' }}></div>
-      </div>
-      
-      {error && (
-        <div className="alert" style={{ backgroundColor: '#FFEEEE', border: '1px solid #B80000', color: '#B80000', borderRadius: '4px', padding: '12px 16px', marginBottom: '20px' }}>
-          <i className="bi bi-exclamation-circle me-2"></i>
-          {error}
-        </div>
-      )}
-      
-      <div className="bg-white shadow-sm rounded-3 p-4">
-        <Form onSubmit={handleSubmit}>
-          <Row>
-            <Col md={8}>
-              <Form.Group className="mb-4">
-                <Form.Label className="fw-semibold">Notice Title</Form.Label>
-                <Form.Control 
-                  type="text" 
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-                  className="py-2"
-                  style={{ borderRadius: '4px', borderColor: '#DFE0E5' }}
-                  placeholder="Enter the notice title"
-                />
-              </Form.Group>
-            </Col>
-            
-            <Col md={4}>
-              <Form.Group className="mb-4">
-                <Form.Label className="fw-semibold">Category</Form.Label>
-                <Form.Select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  required
-                  className="py-2"
-                  style={{ borderRadius: '4px', borderColor: '#DFE0E5' }}
-                >
-                  <option value="">Select Category</option>
-                  <option value="Academic">Academic</option>
-                  <option value="Administrative">Administrative</option>
-                  <option value="Exam">Exam</option>
-                  <option value="Scholarship">Scholarship</option>
-                  <option value="Placement">Placement</option>
-                  <option value="Sports">Sports</option>
-                  <option value="Cultural">Cultural</option>
-                  <option value="General">General</option>
-                </Form.Select>
-              </Form.Group>
-            </Col>
-          </Row>
-          
-          <Form.Group className="mb-4">
-            <Form.Label className="fw-semibold">Notice Content</Form.Label>
-            <Form.Control 
-              as="textarea" 
-              rows={8}
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+    <div className="create-notice">
+      <div className="form-container">
+        <h1>Edit Notice</h1>
+        {error && <div className="error-message">{error}</div>}
+        
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="title">Notice Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
               required
-              className="py-2"
-              style={{ borderRadius: '4px', borderColor: '#DFE0E5' }}
-              placeholder="Enter the notice content"
             />
-          </Form.Group>
-          
-          <div className="d-flex justify-content-between align-items-center mt-4">
-            <Button 
-              variant="outline-secondary" 
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="content">Content</label>
+            <textarea
+              id="content"
+              name="content"
+              value={formData.content}
+              onChange={handleChange}
+              required
+              rows="6"
+            />
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="category">Category</label>
+              <select
+                id="category"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              >
+                <option value="general">General</option>
+                <option value="academic">Academic</option>
+                <option value="event">Event</option>
+                <option value="emergency">Emergency</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="priority">Priority</label>
+              <select
+                id="priority"
+                name="priority"
+                value={formData.priority}
+                onChange={handleChange}
+              >
+                <option value="low">Low</option>
+                <option value="normal">Normal</option>
+                <option value="high">High</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="form-actions">
+            <button
+              type="button"
+              className="cancel-btn"
               onClick={() => navigate('/admin/notices')}
-              className="px-4 py-2"
             >
               Cancel
-            </Button>
-            <Button 
-              type="submit" 
-              disabled={updating}
-              className="px-4 py-2"
-              style={{ 
-                backgroundColor: '#B80000', 
-                borderColor: '#B80000',
-                color: 'white',
-                fontWeight: '500'
-              }}
+            </button>
+            <button
+              type="submit"
+              className="submit-btn"
+              disabled={loading}
             >
-              {updating ? (
-                <>
-                  <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                    className="me-2"
-                  />
-                  Updating...
-                </>
-              ) : (
-                'Update Notice'
-              )}
-            </Button>
+              {loading ? 'Updating...' : 'Update Notice'}
+            </button>
           </div>
-        </Form>
+        </form>
       </div>
-    </Container>
+    </div>
   );
 };
 

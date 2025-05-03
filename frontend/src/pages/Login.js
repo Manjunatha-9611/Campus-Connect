@@ -1,97 +1,76 @@
-import React, { useState, useContext } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthContext';
-import '../css/LogReg.css'; // Make sure to create this CSS file
+import { useAuth } from '../contexts/AuthContext';
+import './Login.css';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-  
-  const { login } = useContext(AuthContext);
+  const { login } = useAuth();
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     try {
-      setError('');
-      setLoading(true);
-      await login(email, password);
-      navigate('/');
-    } catch (error) {
-      setError(error.response?.data?.message || 'Failed to login');
-      setLoading(false);
+      await login(formData.email, formData.password);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Login failed');
     }
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="user-icon">
-          <i className="bi bi-person"></i>
-        </div>
-        
-        {error && <Alert variant="danger">{error}</Alert>}
-        
-        <Form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <div className="input-icon">
-              <i className="bi bi-person"></i>
-            </div>
-            <Form.Control 
-              type="email" 
-              placeholder="Email ID"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+    <div>
+      <div style={{maxWidth: 400, margin: '2rem auto', background: '#fff', padding: '2rem', borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.1)'}}>
+        <h1 style={{textAlign: 'center'}}>WELCOME</h1>
+        {error && <div className="error-message">{error}</div>}
+        <form onSubmit={handleSubmit} autoComplete="off">
+          <div className="form-group">
+            <label htmlFor="email">Username</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Username"
               required
-              className="custom-input"
+              autoFocus
             />
           </div>
-          
-          <div className="input-group">
-            <div className="input-icon">
-              <i className="bi bi-lock"></i>
-            </div>
-            <Form.Control 
-              type="password" 
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="***********"
               required
-              className="custom-input"
             />
           </div>
-          
-          <div className="login-options">
-            <Form.Check 
-              type="checkbox" 
-              label="Remember me" 
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-              className="remember-me"
-            />
-            <Link to="/forgot-password" className="forgot-password">
-              Forgot Password?
-            </Link>
+          <div className="form-options">
+            <label className="remember-me">
+              <input type="checkbox" /> Remember me
+            </label>
+            <Link to="/forgot-password" className="forgot-link">Forgot Password?</Link>
           </div>
-          
-          <Button 
-            variant="primary" 
-            type="submit" 
-            className="login-button"
-            disabled={loading}
-          >
-            {loading ? 'LOGGING IN...' : 'LOGIN'}
-          </Button>
-        </Form>
-        
-        <div className="register-link">
-          Don't have an account? <Link to="/register">Register</Link>
-        </div>
+          <button type="submit" className="login-btn vibrant-btn">LOGIN</button>
+        </form>
+        <p className="register-link">
+          Don't have an account? <Link to="/register">Register here</Link>
+        </p>
       </div>
     </div>
   );

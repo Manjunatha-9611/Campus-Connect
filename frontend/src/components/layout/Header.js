@@ -1,114 +1,105 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { AuthContext } from '../../contexts/AuthContext';
-import '../../css/Header.css';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import { FaUser, FaSignOutAlt, FaCog, FaBell } from 'react-icons/fa';
+import './Header.css';
+import logo from '../../assets/logo-placeholder.png';
 
 const Header = () => {
-  const location = useLocation();
-  const { currentUser, logout } = useContext(AuthContext);
+  const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  // Close mobile menu when changing routes
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [location.pathname]);
-
-  // Add scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    if (!isDropdownOpen) return;
+    const handleClick = (e) => {
+      if (!e.target.closest('.user-dropdown')) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [isDropdownOpen]);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  const renderNavLinks = () => {
+    if (!isAuthenticated) {
+      return (
+        <>
+          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/events" className="nav-link">Events</Link>
+          <Link to="/notices" className="nav-link">Notices</Link>
+        </>
+      );
+    }
+    if (isAdmin) {
+      return (
+        <>
+          <Link to="/admin/dashboard" className="nav-link">Dashboard</Link>
+          <Link to="/admin/events" className="nav-link">Manage Events</Link>
+          <Link to="/admin/notices" className="nav-link">Manage Notices</Link>
+        </>
+      );
+    }
+    return (
+      <>
+        <Link to="/dashboard" className="nav-link">Dashboard</Link>
+        <Link to="/events" className="nav-link">Events</Link>
+        <Link to="/notices" className="nav-link">Notices</Link>
+      </>
+    );
+  };
+
   return (
-    <header className={`header ${scrolled ? 'scrolled' : ''}`}>
-      <div className="container header-container">
-        <div className="logo">
-          <Link to="/">
-            <span className="logo-icon">C</span>
-            <span className="logo-text">CampusConnect</span>
+    <header className={`header${isScrolled ? ' scrolled' : ''}`}>
+      <div className="header-container">
+        <div className="logo-section">
+        <Link to="/" className="nav-link">
+          <img src={logo} alt="Campus Connect Logo" className="logo-img" />
+          <span className="logo-text">Campus Connect</span>
           </Link>
         </div>
-
-        <button 
-          className="menu-toggle" 
-          onClick={toggleMenu}
-          aria-expanded={isMenuOpen}
-          aria-label="Toggle navigation menu"
-        >
-          <span className={`hamburger ${isMenuOpen ? 'active' : ''}`}></span>
-        </button>
-
-        <nav className={`main-nav ${isMenuOpen ? 'open' : ''}`}>
-          <ul className="nav-list">
-            <li className="nav-item">
-              <Link 
-                to="/dashboard" 
-                className={location.pathname === '/dashboard' ? 'active' : ''}
-              >
-                Dashboard
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link 
-                to="/events" 
-                className={location.pathname === '/events' ? 'active' : ''}
-              >
-                Events
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link 
-                to="/notices" 
-                className={location.pathname === '/notices' ? 'active' : ''}
-              >
-                Notices
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link 
-                to="/network" 
-                className={location.pathname === '/network' ? 'active' : ''}
-              >
-                Network
-              </Link>
-            </li>
-          </ul>
-
-          <div className="auth-buttons">
-            {currentUser ? (
-              <div className="user-menu">
-                <div className="user-avatar">
-                  {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U'}
-                </div>
-                <div className="user-dropdown">
-                  <span className="user-name">{currentUser.name}</span>
-                  <div className="dropdown-content">
-                    <Link to="/profile" className="dropdown-item">Profile</Link>
-                    {currentUser.role === 'admin' && (
-                      <Link to="/admin/dashboard" className="dropdown-item">Admin Panel</Link>
-                    )}
-                    <hr className="dropdown-divider" />
-                    <button className="dropdown-item logout-btn" onClick={logout}>Logout</button>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <>
-                <Link to="/login" className="btn btn-outline">Login</Link>
-                <Link to="/register" className="btn btn-primary">Register</Link>
-              </>
-            )}
-          </div>
+        <nav className="nav-menu">
+          {renderNavLinks()}
         </nav>
+        <div className="user-section">
+          {isAuthenticated ? (
+            <div className="user-dropdown">
+              <span className="user-avatar" onClick={() => setIsDropdownOpen((v) => !v)}>
+                {user.profilePic ? (
+                  <img src={user.profilePic} alt="Profile" className="header-profile-pic" />
+                ) : (
+                  user.name[0]
+                )}
+              </span>
+              <span className="user-name" onClick={() => setIsDropdownOpen((v) => !v)}>{user.name}</span>
+              {isDropdownOpen && (
+                <div className="dropdown-content">
+                  <a href="/profile">Profile</a>
+                  <button className="logout-btn" onClick={handleLogout}>Logout</button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link to="/login" className="login-btn">Login</Link>
+          )}
+        </div>
       </div>
     </header>
   );

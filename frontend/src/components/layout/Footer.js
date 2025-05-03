@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
 import '../../css/Footer.css';
+import logo from '../../assets/logo-placeholder.png';
 
 const Footer = () => {
   return (
@@ -10,7 +11,7 @@ const Footer = () => {
         <div className="footer-brand">
           <div className="footer-logo">
             <Link to="/">
-              <span className="logo-icon">C</span>
+              <span className="logo-icon"><img src={logo} alt="Campus Connect Logo" className="logo-img" /></span>
               <span>CampusConnect</span>
             </Link>
           </div>
@@ -41,10 +42,10 @@ const Footer = () => {
           <div className="footer-links-column">
             <h4>Useful Links</h4>
             <ul>
-              <li><Link to="/events/inperson">InPerson Fairs</Link></li>
-              <li><Link to="/hub">The Hub</Link></li>
-              <li><Link to="/events/virtual">VirtualSessions</Link></li>
-              <li><Link to="/network">Our Network</Link></li>
+              <li><Link to="/events/in-person-fairs">InPerson Fairs</Link></li>
+              <li><Link to="/the-hub">The Hub</Link></li>
+              <li><Link to="/events/virtual-sessions">VirtualSessions</Link></li>
+              <li><Link to="/our-network">Our Network</Link></li>
               <li><Link to="/echo">Echo</Link></li>
             </ul>
           </div>
@@ -52,10 +53,10 @@ const Footer = () => {
           <div className="footer-links-column">
             <h4>Company</h4>
             <ul>
-              <li><Link to="/about">Profile</Link></li>
+              <li><Link to="/profile">Profile</Link></li>
               <li><Link to="/clients">Clients</Link></li>
               <li><Link to="/gallery">Gallery</Link></li>
-              <li><Link to="/contact">Contact Us</Link></li>
+              <li><Link to="/contact-us">Contact Us</Link></li>
             </ul>
           </div>
           

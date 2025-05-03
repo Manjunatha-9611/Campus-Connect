@@ -1,0 +1,267 @@
+.network-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #333;
+  }
+  
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  .glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  }
+  
+  .network-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    background: linear-gradient(135deg, rgba(44, 82, 130, 0.1), rgba(26, 54, 93, 0.2));
+  }
+  
+  .network-hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    color: #1a365d;
+  }
+  
+  .network-hero p {
+    font-size: 1.2rem;
+    color: #4a5568;
+  }
+  
+  .network-map-section {
+    margin-bottom: 3rem;
+  }
+  
+  .map-visual {
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .map-placeholder {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .map-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .center-node {
+    background: linear-gradient(135deg, #2c5282, #1a365d);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(26, 54, 93, 0.3);
+  }
+  
+  .connecting-lines {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  
+  .connector {
+    position: absolute;
+    background: linear-gradient(to right, rgba(44, 82, 130, 0.6), rgba(44, 82, 130, 0.1));
+    height: 2px;
+    transform-origin: left center;
+  }
+  
+  .line-1 { width: 150px; transform: translate(60px, 0) rotate(0deg); }
+  .line-2 { width: 150px; transform: translate(60px, 0) rotate(60deg); }
+  .line-3 { width: 150px; transform: translate(60px, 0) rotate(120deg); }
+  .line-4 { width: 150px; transform: translate(60px, 0) rotate(180deg); }
+  .line-5 { width: 150px; transform: translate(60px, 0) rotate(240deg); }
+  .line-6 { width: 150px; transform: translate(60px, 0) rotate(300deg); }
+  
+  .network-nodes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  
+  .network-node {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.8rem 1.5rem;
+    border-radius: 30px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    color: #2c5282;
+  }
+  
+  .node-1 { top: 40%; left: 75%; }
+  .node-2 { top: 15%; left: 65%; }
+  .node-3 { top: 15%; left: 35%; }
+  .node-4 { top: 40%; left: 25%; }
+  .node-5 { top: 65%; left: 35%; }
+  .node-6 { top: 65%; left: 65%; }
+  
+  .partners-section, 
+  .universities-section,
+  .join-network-section {
+    margin-bottom: 3rem;
+  }
+  
+  .partners-section h2,
+  .universities-section h2,
+  .join-network-section h2 {
+    font-size: 1.8rem;
+    color: #2c5282;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+  
+  .partners-section h2:after,
+  .universities-section h2:after,
+  .join-network-section h2:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, #2c5282, transparent);
+  }
+  
+  .partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .partner-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #2c5282;
+  }
+  
+  .partner-category {
+    display: inline-block;
+    background: rgba(44, 82, 130, 0.1);
+    color: #2c5282;
+    padding: 0.2rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  
+  .view-opportunities-btn {
+    background: linear-gradient(135deg, #2c5282, #1a365d);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    width: 100%;
+  }
+  
+  .view-opportunities-btn:hover {
+    background: linear-gradient(135deg, #1a365d, #0a2040);
+  }
+  
+  .universities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .university-badge {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-weight: 500;
+    color: #2c5282;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+  
+  .university-badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
+  .join-card {
+    text-align: center;
+    background: linear-gradient(135deg, rgba(44, 82, 130, 0.1), rgba(26, 54, 93, 0.2));
+  }
+  
+  .join-card p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+  }
+  
+  .join-network-btn {
+    background: linear-gradient(135deg, #2c5282, #1a365d);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(26, 54, 93, 0.3);
+  }
+  
+  .join-network-btn:hover {
+    background: linear-gradient(135deg, #1a365d, #0a2040);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(26, 54, 93, 0.4);
+  }
+  
+  @media (max-width: 768px) {
+    .partners-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .map-visual {
+      height: 300px;
+    }
+    
+    .network-nodes, .connecting-lines {
+      display: none;
+    }
+    
+    .network-container {
+      padding: 1rem;
+    }
+  }

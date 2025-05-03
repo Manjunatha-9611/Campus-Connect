@@ -1,117 +1,113 @@
-import React, { useState, useContext } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthContext';
-import '../css/LogReg.css'; // Make sure to create this CSS file
+import { useAuth } from '../contexts/AuthContext';
+import './Register.css';
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: 'student'
+  });
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  
-  const { register } = useContext(AuthContext);
+  const { register } = useAuth();
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (password !== confirmPassword) {
-      return setError('Passwords do not match');
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
     }
-    
     try {
-      setError('');
-      setLoading(true);
-      await register(name, email, password);
-      navigate('/');
-    } catch (error) {
-      setError(error.response?.data?.message || 'Failed to register');
-      setLoading(false);
+      await register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role
+      });
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Registration failed');
     }
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="user-icon">
-          <i className="bi bi-person-plus"></i>
-        </div>
-        
-        {error && <Alert variant="danger">{error}</Alert>}
-        
-        <Form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <div className="input-icon">
-              <i className="bi bi-person"></i>
-            </div>
-            <Form.Control 
-              type="text" 
-              placeholder="Full Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+    <div className="register-page">
+      <div className="register-container">
+        <h1>Register</h1>
+        {error && <div className="error-message">{error}</div>}
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name">Full Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               required
-              className="custom-input"
             />
           </div>
-          
-          <div className="input-group">
-            <div className="input-icon">
-              <i className="bi bi-envelope"></i>
-            </div>
-            <Form.Control 
-              type="email" 
-              placeholder="Email ID"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               required
-              className="custom-input"
             />
           </div>
-          
-          <div className="input-group">
-            <div className="input-icon">
-              <i className="bi bi-lock"></i>
-            </div>
-            <Form.Control 
-              type="password" 
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               required
-              className="custom-input"
             />
           </div>
-          
-          <div className="input-group">
-            <div className="input-icon">
-              <i className="bi bi-lock-fill"></i>
-            </div>
-            <Form.Control 
-              type="password" 
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
               required
-              className="custom-input"
             />
           </div>
-          
-          <Button 
-            variant="primary" 
-            type="submit" 
-            className="login-button"
-            disabled={loading}
-          >
-            {loading ? 'REGISTERING...' : 'REGISTER'}
-          </Button>
-        </Form>
-        
-        <div className="register-link">
-          Already have an account? <Link to="/login">Login</Link>
-        </div>
+          <div className="form-group">
+            <label htmlFor="role">Role</label>
+            <select
+              id="role"
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+            >
+              <option value="student">Student</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <button type="submit" className="register-btn">Register</button>
+        </form>
+        <p className="login-link">
+          Already have an account? <Link to="/login">Login here</Link>
+        </p>
       </div>
     </div>
   );

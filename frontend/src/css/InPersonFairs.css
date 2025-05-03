@@ -1,0 +1,105 @@
+.inperson-fairs-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #333;
+  }
+  
+  .glass-header {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  }
+  
+  .glass-header h1 {
+    margin-top: 0;
+    color: #1a365d;
+    font-size: 2.5rem;
+  }
+  
+  .fairs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .fair-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  .fair-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .fair-card h2 {
+    color: #2c5282;
+    margin-top: 0;
+    border-bottom: 2px solid rgba(44, 82, 130, 0.2);
+    padding-bottom: 0.5rem;
+  }
+  
+  .fair-details {
+    margin: 1rem 0;
+  }
+  
+  .register-btn {
+    background: linear-gradient(135deg, #2c5282, #1a365d);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .register-btn:hover {
+    background: linear-gradient(135deg, #1a365d, #0a2040);
+  }
+  
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  }
+  
+  .glass-panel h2 {
+    color: #2c5282;
+    margin-top: 0;
+  }
+  
+  .glass-panel ul {
+    padding-left: 1.5rem;
+  }
+  
+  .glass-panel li {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+  
+  @media (max-width: 768px) {
+    .fairs-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .inperson-fairs-container {
+      padding: 1rem;
+    }
+  }

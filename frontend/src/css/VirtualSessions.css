@@ -1,0 +1,242 @@
+.virtual-sessions-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #333;
+  }
+  
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  }
+  
+  .hero-section {
+    text-align: center;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, rgba(44, 82, 130, 0.1), rgba(26, 54, 93, 0.2));
+  }
+  
+  .hero-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #1a365d;
+  }
+  
+  .hero-section p {
+    font-size: 1.1rem;
+    color: #4a5568;
+  }
+  
+  .tabs-container {
+    margin-bottom: 2rem;
+  }
+  
+  .tabs {
+    display: flex;
+    margin-bottom: 1rem;
+  }
+  
+  .tab {
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #4a5568;
+    transition: all 0.3s ease;
+    margin-right: 0.5rem;
+    border-bottom: 3px solid transparent;
+  }
+  
+  .tab:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .tab.active {
+    color: #2c5282;
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 3px solid #2c5282;
+  }
+  
+  .tab-content {
+    min-height: 300px;
+  }
+  
+  .session-card, .past-session-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  .session-card:hover, .past-session-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .session-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .session-header h2 {
+    margin: 0;
+    color: #2c5282;
+    font-size: 1.5rem;
+  }
+  
+  .session-spots {
+    background: rgba(44, 82, 130, 0.1);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #2c5282;
+  }
+  
+  .session-details {
+    margin-bottom: 1.5rem;
+  }
+  
+  .session-details p {
+    margin: 0.5rem 0;
+  }
+  
+  .session-actions {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .register-session-btn, .add-calendar-btn, .watch-recording-btn {
+    padding: 0.7rem 1.2rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .register-session-btn {
+    background: linear-gradient(135deg, #2c5282, #1a365d);
+    color: white;
+    flex: 1;
+  }
+  
+  .register-session-btn:hover {
+    background: linear-gradient(135deg, #1a365d, #0a2040);
+  }
+  
+  .add-calendar-btn {
+    background: transparent;
+    color: #2c5282;
+    border: 1px solid #2c5282;
+  }
+  
+  .add-calendar-btn:hover {
+    background: rgba(44, 82, 130, 0.1);
+  }
+  
+  .past-session-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .past-session-info h3 {
+    margin: 0 0 0.5rem 0;
+    color: #2c5282;
+  }
+  
+  .past-session-info p {
+    margin: 0;
+    color: #718096;
+  }
+  
+  .watch-recording-btn {
+    background: #e53e3e;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .watch-recording-btn:hover {
+    background: #c53030;
+  }
+  
+  .play-icon {
+    font-size: 0.8rem;
+  }
+  
+  .info-section {
+    margin-top: 2rem;
+  }
+  
+  .info-section h2 {
+    color: #2c5282;
+    margin-top: 0;
+  }
+  
+  .info-section h3 {
+    color: #2c5282;
+    margin-top: 1.5rem;
+  }
+  
+  .info-section ul {
+    padding-left: 1.5rem;
+  }
+  
+  .info-section li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .notification-box {
+    background: rgba(66, 153, 225, 0.1);
+    border-left: 4px solid #4299e1;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    border-radius: 0 4px 4px 0;
+  }
+  
+  .notification-box p {
+    margin: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .session-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .session-spots {
+      margin-top: 0.5rem;
+    }
+    
+    .session-actions {
+      flex-direction: column;
+    }
+    
+    .past-session-card {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .watch-recording-btn {
+      margin-top: 1rem;
+      align-self: stretch;
+    }
+    
+    .virtual-sessions-container {
+      padding: 1rem;
+    }
+  }
